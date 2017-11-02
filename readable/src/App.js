@@ -1,19 +1,31 @@
 import React, { Component } from 'react';
+import {Route, Switch} from 'react-router-dom'
 import logo from './logo.svg';
 import './App.css';
+
+import MyRoutes from './MyRoutes'
+import Header from '../src/common/template/header'
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+       // Iterate All routes
+       <Switch>
+       {MyRoutes.map(({path, exact, params, Layout, Component}) => (
+         <Route
+           key={0}
+           exact={exact}
+           params={params}
+           path={path}
+           render={(props) => (
+           <Layout {...props}>
+             <Component {...props}/>
+           </Layout>
+         )}/>
+       ))}
+       
+     </Switch>
+       
     );
   }
 }
