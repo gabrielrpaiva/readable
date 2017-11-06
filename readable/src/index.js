@@ -6,9 +6,11 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import configureStore from '../src/myStore/configStore'
 import { Provider } from 'react-redux'
-
-const store = configureStore()
- 
+import reducers from './MainReducers'
+import {createStore, compose} from 'redux'
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+//const store = configureStores()
+const store =  (createStore)(reducers)
 
 ReactDOM.render(
     <BrowserRouter>
