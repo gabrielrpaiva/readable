@@ -13,7 +13,9 @@ export const GET_ALL_CATEGORIES_FAILURE = 'GET_ALL_CATEGORIES_FAILURE'
 export const allCategoriesRequest = () => {
   return {  
     type: API_CALL, 
-    types: [GET_ALL_CATEGORIES_SUCCESS],
+    types: [
+      GET_ALL_CATEGORIES_LOADING, GET_ALL_CATEGORIES_SUCCESS, GET_ALL_CATEGORIES_FAILURE
+    ],
     callMethod: () => ReadableApi.getCategories()
   }
 }
