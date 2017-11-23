@@ -14,8 +14,6 @@ const CategoriesList = ({ categories }) => {
                         title={category.name}>{category.name}</NavLink>
                 ))}
             </p>
-       
-
       </div>
     )
 }
