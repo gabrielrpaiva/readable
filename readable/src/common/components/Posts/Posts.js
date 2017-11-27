@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom'
 import { If, Then } from 'react-if'
+import * as Material from 'react-icons/lib/md'
 
 
 class Posts extends Component {
@@ -28,30 +29,22 @@ class Posts extends Component {
     render() {
 
         /* Get the variables from the props */
-        const { posts, addVote, removeVote, deletePost } = this.props
-
+        const { posts, sortOrderPosts, addVote, removeVote, deletePost } = this.props
+        console.log("posts: " + posts)
         return (
             <div className="container">
                 <h1>See All Posts</h1>
-
-                {/*  <div className="col-sm-6">
-                    <div className="card">
-                        <div className="card-header">
-                            <span className='float-right' onClick={(event) => this.ctrlPostVisibility()}>
-                                Algo</span>
-
-                            <If condition={this.state.showBodyPost}>
-                                <Then>
-                                    <span className='float-left'>
-                                        Algo Dois</span>
-                                </Then>
-                            </If>
-
-
-                        </div>
-
-                    </div>
-                </div> */}
+                <div className="form-group">
+                    <label>Posts Order</label>
+                    <select
+                        className="form-control"
+                        onChange={(event) => {
+                            sortOrderPosts(event.target.value)
+                        }}>
+                        <option value="voteScore">Vote Score</option>
+                        <option value="timestamp">Date</option>
+                    </select>
+                </div>
 
                 {posts.map((post) => (
                     <div key={post.id} className="col-sm-6">
@@ -62,9 +55,9 @@ class Posts extends Component {
                                     {post.category}</span>
                                 <span className='float-left'>
                                     {post.author}</span>
-                                    <span className='float-center' style={{ paddingLeft: 151, color: '#007bff'}} onClick={(event) => this.ctrlPostVisibility(post.id)}> 
+                                <span className='float-center' style={{ paddingLeft: 151, color: '#007bff' }} onClick={(event) => this.ctrlPostVisibility(post.id)}>
                                     {this.state.postId === post.id ? "See less" : "See more"}
-                                    </span>
+                                </span>
                             </div>
 
                             <If condition={this.state.postId === post.id}>
@@ -92,11 +85,13 @@ class Posts extends Component {
                                         <button
                                             className="btn btn-dark float-right"
                                             onClick={(event) => addVote(post.id)}>
+                                            <Material.MdAdd/>{' '}
                                             Vote
                          </button>
                                         <button
                                             className="btn btn-dark float-right"
                                             onClick={(event) => removeVote(post.id)}>
+                                             <Material.MdRemove/>{' '}
                                             Vote
                          </button>
                                     </div>
@@ -117,14 +112,6 @@ class Posts extends Component {
                                     </div>
                                 </Then>
                             </If>
-
-
-
-
-
-
-
-
                         </div>
                         <br />
                     </div>
@@ -137,6 +124,7 @@ class Posts extends Component {
 
 
 }
+
 
 
 export default Posts;

@@ -24,14 +24,17 @@ class StartPage extends Component {
   render() {
     const {
       categories,
-      posts
+      posts,
+      sortOrderPosts,addVote,removeVote,deletePost
     } = this.props
   
-
+ 
     return (
       <section>
         <CategoriesList categories={categories} />
-        <Posts posts={posts} />
+        <Posts posts={posts} 
+          sortOrderPosts={sortOrderPosts}   addVote={addVote}
+          removeVote={removeVote} deletePost={deletePost}/>
       </section>
     )
   }
@@ -47,6 +50,10 @@ const mapDispatchToProps = (dispatch) => {
   return {
     loadAllCategories: () => dispatch(allCategoriesRequest()),
     loadAllPosts: () => dispatch(PostActions.getAllPostsRequest()),
+    sortOrderPosts: (column) => dispatch(PostActions.setAllPostsOrder(column)),
+    addVote: (postId) => dispatch(PostActions.addPostVote(postId)),
+    removeVote: (postId) => dispatch(PostActions.removePostVote(postId)),
+    deletePost: (postId) => dispatch(PostActions.deletePost(postId))
   }
 }
 

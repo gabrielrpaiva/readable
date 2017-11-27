@@ -23,8 +23,70 @@ const loadPosts = (state = postsInitialState, action) => {
     }
   }
 
+  const orderPosts = (state = postsInitialState, action) => {
+    switch (action.type) {
+      case Actions.SET_ALL_POSTS_ORDER:
+        return {
+          ...state,
+          columnForAllPosts: action.column,
+          posts: state
+            .posts
+            .slice()
+            .sort(sortBy(action.column))
+        }
+      default:
+        return state;
+    }
+  }
+
+  const postVotes = (state = postsInitialState, action) => {
+    switch (action.type) {
+      case Actions.ADD_POST_VOTE_SUCCESS:
+        return {
+          ...state,
+          posts: state
+            .posts
+            .map((post) => (post.id === action.payload.postId
+              ? {
+                ...post,
+                voteScore: post.voteScore + 1
+              }
+              : post)),
+          isProcessingVotes: false
+        } 
+      case Actions.REMOVE_POST_VOTE_SUCCESS:
+        return {
+          ...state,
+          posts: state
+            .posts
+            .map((post) => (post.id === action.payload.postId
+              ? {
+                ...post,
+                voteScore: post.voteScore - 1
+              }
+              : post)),
+          isProcessingVotes: false
+        } 
+      default:
+        return state;
+    }
+  }
+
+  const deletePost = (state = postsInitialState, action) => {
+    switch (action.type) {
+      case Actions.DELETE_POST_SUCCESS:
+        return {
+          ...state,
+          posts: state
+            .posts
+            .filter(post => post.id !== action.payload.postId)
+        }
+      default:
+        return state;
+    }
+  }
 
 /* Merge all reducer into a single one */
-const allPostsReducer = reduceReducers(loadPosts)
+const allPostsReducer = reduceReducers(loadPosts, orderPosts, postVotes,deletePost)
 
 export default allPostsReducer
