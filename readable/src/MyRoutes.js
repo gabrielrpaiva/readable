@@ -11,6 +11,12 @@ const myRoutes = [
       params: false,
       Component: StartPage,
       Layout: Master
+    } , {
+      path: '/:category',
+      exact: true,
+      params: true,
+      Component: StartPage,
+      Layout: Master
     }
   ]
   

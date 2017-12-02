@@ -5,6 +5,7 @@ import { allCategoriesRequest } from '../../reducers/Categories/CategoriesAction
 import * as PostActions from '../../reducers/Posts/PostActions'
 import CategoriesList from '../../common/components/Categories/CategoriesList'
 import Posts from '../../common/components/Posts/Posts'
+import * as postSelectors from '../../reducers/Posts/PostsSelectors'
 
 class StartPage extends Component {
 
@@ -25,26 +26,28 @@ class StartPage extends Component {
     const {
       categories,
       posts,
-      sortOrderPosts,addVote,removeVote,deletePost
+      sortOrderPosts, addVote, removeVote, deletePost,currentCategory
     } = this.props
-  
- 
+    
     return (
       <section>
         <CategoriesList categories={categories} />
-        <Posts posts={posts} 
-          sortOrderPosts={sortOrderPosts}   addVote={addVote}
-          removeVote={removeVote} deletePost={deletePost}/>
+        <Posts posts={posts}
+          sortOrderPosts={sortOrderPosts} addVote={addVote}
+          removeVote={removeVote} deletePost={deletePost} currentCategory={currentCategory} />
       </section>
     )
   }
 
 }
 
-const mapStateToProps = state => ({ 
+
+
+const mapStateToProps = (state, ownProps) => ({
   categories: state.CategoriesReducers.categories,
-  posts: state.PostsReducers.posts
- })
+  currentCategory: ownProps.match.params.category,
+  posts: postSelectors.getPostsByCategory(state.PostsReducers, ownProps.match.params.category)
+})
 
 const mapDispatchToProps = (dispatch) => {
   return {

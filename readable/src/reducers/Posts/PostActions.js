@@ -90,3 +90,29 @@ export const deletePost = (postId) => {
     }
   }
 }
+
+
+export const ADD_OR_UPDATE_POST_SUCCESS = 'ADD_OR_UPDATE_POST_SUCCESS'
+export const ADD_OR_UPDATE_POST_PROCESSING = 'ADD_OR_UPDATE_POST_PROCESSING'
+export const ADD_OR_UPDATE_POST_FAILURE = 'ADD_OR_UPDATE_POST_FAILURE'
+
+/**
+ * Add or update Post
+ * @param {*} isNew
+ * @param {*} post
+ */
+export const addOrUpdatePost = (isNew, post) => {
+  return {
+    type: API_CALL,
+    types: [
+      ADD_OR_UPDATE_POST_PROCESSING, ADD_OR_UPDATE_POST_SUCCESS, ADD_OR_UPDATE_POST_FAILURE
+    ],
+    callMethod: () => (isNew
+      ? ReadableApi.addPost(post)
+      : ReadableApi.editPostDetails(post.id, post)),
+    payload: {
+      post,
+      isNew
+    }
+  }
+}

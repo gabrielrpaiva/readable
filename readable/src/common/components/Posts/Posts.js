@@ -29,11 +29,11 @@ class Posts extends Component {
     render() {
 
         /* Get the variables from the props */
-        const { posts, sortOrderPosts, addVote, removeVote, deletePost } = this.props
+        const { posts, sortOrderPosts, addVote, removeVote, deletePost, currentCategory } = this.props
         console.log("posts: " + posts)
         return (
             <div className="container">
-                <h1>See All Posts</h1>
+                <h1>See all {currentCategory} posts</h1>
                 <div className="form-group">
                     <label>Posts Order</label>
                     <select
