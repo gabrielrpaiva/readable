@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom'
-import { If, Then } from 'react-if'
+import { If, Then } from 'react-if' 
 import * as Material from 'react-icons/lib/md'
 
 
@@ -46,6 +46,7 @@ class Posts extends Component {
                     </select>
                 </div>
 
+
                 {posts.map((post) => (
                     <div key={post.id} className="col-sm-6">
                         <div className="card" >
@@ -65,18 +66,23 @@ class Posts extends Component {
                                     <div className="card-body">
                                         <h4 className="card-title">{post.title}</h4>
                                         <p className="card-text">{post.body}</p>
-                                        {/* <NavLinkWithIcon
-                                    exact
-                                    className='card-link'
-                                    text='Details'
-                                    icontype={< Material.MdOpenInNew />}
-                                    to={`/${post.category}/${post.id}`} />
-                                <NavLinkWithIcon
-                                    exact
-                                    className='card-link'
-                                    text='Edit'
-                                    icontype={< Material.MdEdit />}
-                                    to={`/posts/${post.id}/edit`} /> */}
+                                        <NavLink
+                                            key={post.id}
+                                            t to={`/posts/edit/${post.id}`} 
+                                            className='card-link'
+                                            title='Edit'>Edit</NavLink>
+                                     {/*    <NavLinkWithIcon
+                                            exact
+                                            className='card-link'
+                                            text='Details'
+                                            icontype={< Material.MdOpenInNew />}
+                                            to={`/${post.category}/${post.id}`} /> */}
+                                     {/*    <NavLinkWithIcon
+                                            exact
+                                            className='card-link'
+                                            text='Edit'
+                                            icontype={< Material.MdEdit />}
+                                            to={`/posts/${post.id}/edit`} /> */}
                                         <button
                                             className="btn btn-danger float-right"
                                             onClick={(event) => deletePost(post.id)}>
@@ -85,13 +91,13 @@ class Posts extends Component {
                                         <button
                                             className="btn btn-dark float-right"
                                             onClick={(event) => addVote(post.id)}>
-                                            <Material.MdAdd/>{' '}
+                                            <Material.MdAdd />{' '}
                                             Vote
                          </button>
                                         <button
                                             className="btn btn-dark float-right"
                                             onClick={(event) => removeVote(post.id)}>
-                                             <Material.MdRemove/>{' '}
+                                            <Material.MdRemove />{' '}
                                             Vote
                          </button>
                                     </div>
