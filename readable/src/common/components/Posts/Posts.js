@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom'
-import { If, Then } from 'react-if' 
+import { If, Then } from 'react-if'
 import * as Material from 'react-icons/lib/md'
 
 
@@ -52,13 +52,14 @@ class Posts extends Component {
                         <div className="card" >
 
                             <div className="card-header">
+                                <span className='float-right' style={{ paddingLeft: 151, color: '#007bff' }} onClick={(event) => this.ctrlPostVisibility(post.id)}>
+                                    {this.state.postId === post.id ? <Material.MdRemove /> : <Material.MdAdd />}
+                                </span>
                                 <span className='float-right'>
                                     {post.category}</span>
                                 <span className='float-left'>
                                     {post.author}</span>
-                                <span className='float-center' style={{ paddingLeft: 151, color: '#007bff' }} onClick={(event) => this.ctrlPostVisibility(post.id)}>
-                                    {this.state.postId === post.id ? "See less" : "See more"}
-                                </span>
+
                             </div>
 
                             <If condition={this.state.postId === post.id}>
@@ -68,16 +69,21 @@ class Posts extends Component {
                                         <p className="card-text">{post.body}</p>
                                         <NavLink
                                             key={post.id}
-                                            t to={`/posts/edit/${post.id}`} 
+                                            t to={`/posts/edit/${post.id}`}
                                             className='card-link'
                                             title='Edit'>Edit</NavLink>
-                                     {/*    <NavLinkWithIcon
+                                        <NavLink
+                                            key={post.id}
+                                            t to={`/${post.category}/${post.id}`}
+                                            className='card-link'
+                                            title='Details'>Details</NavLink>
+                                        {/*    <NavLinkWithIcon
                                             exact
                                             className='card-link'
                                             text='Details'
                                             icontype={< Material.MdOpenInNew />}
                                             to={`/${post.category}/${post.id}`} /> */}
-                                     {/*    <NavLinkWithIcon
+                                        {/*    <NavLinkWithIcon
                                             exact
                                             className='card-link'
                                             text='Edit'
