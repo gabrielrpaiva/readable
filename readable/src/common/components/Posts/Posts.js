@@ -69,12 +69,12 @@ class Posts extends Component {
                                         <p className="card-text">{post.body}</p>
                                         <NavLink
                                             key={post.id}
-                                            t to={`/posts/edit/${post.id}`}
+                                            to={`/posts/edit/${post.id}`}
                                             className='card-link'
                                             title='Edit'>Edit</NavLink>
                                         <NavLink
                                             key={post.id}
-                                            t to={`/${post.category}/${post.id}`}
+                                            to={`/${post.category}/${post.id}`}
                                             className='card-link'
                                             title='Details'>Details</NavLink>
                                         {/*    <NavLinkWithIcon

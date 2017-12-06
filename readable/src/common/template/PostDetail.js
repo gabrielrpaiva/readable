@@ -3,16 +3,26 @@ import { withRouter } from 'react-router'
 import Moment from 'moment'
 import { connect } from 'react-redux'
 import * as PostActions from '../../reducers/Posts/PostActions'
+import * as CommentActions from '../../reducers/Comments/CommentsActions'
 import * as Material from 'react-icons/lib/md'
 import { NavLink } from 'react-router-dom'
 import { If, Then } from 'react-if'
 import * as postSelectors from '../../reducers/Posts/PostsSelectors'
+import * as commentsSelectors from '../../reducers/Comments/CommentsSelectors'
+import Comment from '../../common/template/Comment'
 
 
 class PostDetail extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            showNewCommentForm: false
+          }
+
+        const { loadAllPosts,loadAllComments, posts,match } = this.props
+        loadAllPosts()
+        loadAllComments(match.params.postId)
         this.handleNewCommentForm = this
             .handleNewCommentForm
             .bind(this);
@@ -43,7 +53,7 @@ class PostDetail extends Component {
 
     render() {
         const {
-            post,
+            posts,
             addVote,
             removeVote,
             deletePost,
@@ -55,31 +65,31 @@ class PostDetail extends Component {
             deleteComment,
             addOrUpdateComment
           } = this.props
-
+        console.log(posts.title)
         return (
             <div className="container">
-                <h1>{post.title}</h1>
+                <h1>{posts.title}</h1>
                 <div className="row">
                     <div className="col text-left">
-                        <p>{post.body}</p>
+                        <p>{posts.body}</p>
                     </div>
                 </div>
                 <div className="row">
                     <div className="col text-left">
-                        Author{' '}{post.author}
+                        Author{' '}{posts.author}
                     </div>
                 </div>
                 <br />
                 <div className="row">
                     <div className="col text-left">
-                        {Moment(post.timestamp).format('MM/D/YYYY')}
+                        {Moment(posts.timestamp).format('MM/D/YYYY')}
                     </div>
                     <div className="col text-center">
-                        {post.voteScore}{' '}
+                        {posts.voteScore}{' '}
                         Votes
             </div>
                     <div className="col text-right">
-                        {post.commentsCount}{' '}
+                        {posts.commentsCount}{' '}
                         Comments
             </div>
                 </div>
@@ -87,20 +97,15 @@ class PostDetail extends Component {
                 <div className="row">
                     <div className="col-sm-12">
                         <NavLink
-                            key={post.id}
-                            t to={`/posts/edit/${post.id}`}
+                            key={posts.id}
+                            to={`/posts/edit/${posts.id}`}
                             className='card-link'
                             title='Edit'>Edit</NavLink>
-                        {/*          <NavLinkWithIcon
-                exact
-                className='card-link'
-                text='Edit'
-                icontype={< Material.MdEdit />}
-                to={`/posts/${post.id}/edit`}/> */}
+                       
                         <button
                             className="btn btn-danger float-right"
                             onClick={(event) => {
-                                deletePost(post.id);
+                                deletePost(posts.id);
                                 history.push('/')
                             }}>
                             <Material.MdRemove />{' '}
@@ -108,13 +113,13 @@ class PostDetail extends Component {
               </button>
                         <button
                             className="btn btn-dark float-right"
-                            onClick={(event) => addVote(post.id)}>
+                            onClick={(event) => addVote(posts.id)}>
                             <Material.MdAdd />{' '}
                             Vote
               </button>
                         <button
                             className="btn btn-dark float-right"
-                            onClick={(event) => removeVote(post.id)}>
+                            onClick={(event) => removeVote(posts.id)}>
                             <Material.MdRemove />{' '}
                             Vote
               </button>
@@ -138,20 +143,26 @@ class PostDetail extends Component {
                         <div>
                             <br />
                             <hr />
-                           {/*  <CreateOrEditComment sendComment={this.addNewComment} postId={post.id} /> */}
+                             <Comment sendComment={this.addNewComment} postId={posts.id} /> 
                             <hr />
                         </div>
                     </Then>
                 </If>
 
                 <br />
-            {/*     <CommentsList
-                    comments={comments}
-                    isLoading={isPostsLoading}
-                    addVote={addCommentVote}
-                    removeVote={removeCommentVote}
-                    deleteComment={deleteComment}
-                    addOrUpdateComment={addOrUpdateComment} /> */}
+                <div>
+                    <h1>Comments</h1>
+
+                    <div className="card-deck"> {
+                        comments.map((comment) => (<Comment
+                            key={comment.id}
+                            comment={comment}
+                            addVote={addVote}
+                            removeVote={removeVote}
+                            deleteComment={deleteComment}
+                            addOrUpdateComment={addOrUpdateComment} />))
+                    } </div>
+                </div>
             </div>
         )
 
@@ -160,14 +171,23 @@ class PostDetail extends Component {
 }
 
 PostDetail.defaultProps = {
-    post: null
+    posts: {
+        // id: Randomstring.generate(),
+        timestamp: Date.now(),
+        body: '',
+        author: '',
+        category: 'react',
+        title: '',
+        voteScore: 1,
+        new: true
+    }
 };
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        post: postSelectors.getPostsByIdInternal(state, ownProps),
-        // comments: CommentsSelectors.getCommentsByPostId(state.commentsReducers, ownProps),
-        isPostsLoading: state.postsReducers.isPending,
+        posts: postSelectors.getPostsByIdInternal(state.PostsReducers, ownProps.match.params.postId),
+        comments: commentsSelectors.getCommentsByPostId(state.commentsReducers, ownProps),
+        //isPostsLoading: state.postsReducers.isPending,
         //isCommentsLoading: state.commentsReducers.isPending
     }
 }
@@ -175,14 +195,14 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         loadAllPosts: () => dispatch(PostActions.getAllPostsRequest()),
-        //  loadAllComments: (postId) => dispatch(CommentActions.allCommentsByPostRequest(postId)),
+         loadAllComments: (postId) => dispatch(CommentActions.allCommentsByPostRequest(postId)),
         addVote: (postId) => dispatch(PostActions.addPostVote(postId)),
         removeVote: (postId) => dispatch(PostActions.removePostVote(postId)),
         deletePost: (postId) => dispatch(PostActions.deletePost(postId)),
         // addCommentVote: (commentId) => dispatch(CommentActions.addCommentVote(commentId)),
         // removeCommentVote: (commentId) => dispatch(CommentActions.removeCommentVote(commentId)),
         // deleteComment: (commentId) => dispatch(CommentActions.deleteComment(commentId)),
-        // addOrUpdateComment: (isNew, comment) => dispatch(CommentActions.addOrUpdateComment(isNew, comment))
+         addOrUpdateComment: (isNew, comment) => dispatch(CommentActions.addOrUpdateComment(isNew, comment))
     }
 }
 
