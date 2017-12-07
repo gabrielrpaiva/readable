@@ -10,6 +10,8 @@ import { If, Then } from 'react-if'
 import * as postSelectors from '../../reducers/Posts/PostsSelectors'
 import * as commentsSelectors from '../../reducers/Comments/CommentsSelectors'
 import Comment from '../../common/template/Comment'
+import ConfigComment from './ConfigComment'
+import Randomstring from 'randomstring'
 
 
 class PostDetail extends Component {
@@ -18,9 +20,9 @@ class PostDetail extends Component {
 
         this.state = {
             showNewCommentForm: false
-          }
+        }
 
-        const { loadAllPosts,loadAllComments, posts,match } = this.props
+        const { loadAllPosts, loadAllComments, posts, match } = this.props
         loadAllPosts()
         loadAllComments(match.params.postId)
         this.handleNewCommentForm = this
@@ -29,6 +31,10 @@ class PostDetail extends Component {
 
         this.addNewComment = this
             .addNewComment
+            .bind(this);
+
+            this.sendComment = this
+            .sendComment
             .bind(this);
 
     }
@@ -51,6 +57,11 @@ class PostDetail extends Component {
 
     }
 
+    sendComment(isNew, comment) {
+        
+            this.props.addOrUpdateComment(isNew, comment)
+          }
+
     render() {
         const {
             posts,
@@ -65,8 +76,17 @@ class PostDetail extends Component {
             deleteComment,
             addOrUpdateComment
           } = this.props
-        console.log(posts.title)
+      console.log("posts.id: " + posts.id)
+        let  comment = { 
+            author: '',
+            timestamp: Date.now(),
+            body: '',
+            id: Randomstring.generate(),
+            parentId: ''
+        }
+
         return (
+         
             <div className="container">
                 <h1>{posts.title}</h1>
                 <div className="row">
@@ -101,7 +121,7 @@ class PostDetail extends Component {
                             to={`/posts/edit/${posts.id}`}
                             className='card-link'
                             title='Edit'>Edit</NavLink>
-                       
+
                         <button
                             className="btn btn-danger float-right"
                             onClick={(event) => {
@@ -138,12 +158,15 @@ class PostDetail extends Component {
                     <br />
                 </div>
 
-                <If condition={this.state.showNewCommentForm}>
+                <If condition={this.state.showNewCommentForm}>            
                     <Then>
                         <div>
                             <br />
-                            <hr />
-                             <Comment sendComment={this.addNewComment} postId={posts.id} /> 
+                            <hr /> 
+                            <ConfigComment
+                                sendComment={this.sendComment}
+                                comment={comment}
+                                postId={posts.id} /> 
                             <hr />
                         </div>
                     </Then>
@@ -195,14 +218,14 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         loadAllPosts: () => dispatch(PostActions.getAllPostsRequest()),
-         loadAllComments: (postId) => dispatch(CommentActions.allCommentsByPostRequest(postId)),
+        loadAllComments: (postId) => dispatch(CommentActions.allCommentsByPostRequest(postId)),
         addVote: (postId) => dispatch(PostActions.addPostVote(postId)),
         removeVote: (postId) => dispatch(PostActions.removePostVote(postId)),
         deletePost: (postId) => dispatch(PostActions.deletePost(postId)),
         // addCommentVote: (commentId) => dispatch(CommentActions.addCommentVote(commentId)),
         // removeCommentVote: (commentId) => dispatch(CommentActions.removeCommentVote(commentId)),
         // deleteComment: (commentId) => dispatch(CommentActions.deleteComment(commentId)),
-         addOrUpdateComment: (isNew, comment) => dispatch(CommentActions.addOrUpdateComment(isNew, comment))
+        addOrUpdateComment: (isNew, comment) => dispatch(CommentActions.addOrUpdateComment(isNew, comment))
     }
 }
 

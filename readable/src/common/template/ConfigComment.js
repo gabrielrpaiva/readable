@@ -32,10 +32,8 @@ class ConfigComment extends Component {
   sendComment() {
     const {comment, postId} = this.props
     const isNew = comment.id === null
-
-    this
-      .props
-      .sendComment(isNew, {
+ 
+    this.props.sendComment(isNew, {
         ...comment,
         id: isNew
           ? Randomstring.generate()
