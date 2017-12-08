@@ -33,7 +33,7 @@ class PostDetail extends Component {
             .addNewComment
             .bind(this);
 
-            this.sendComment = this
+        this.sendComment = this
             .sendComment
             .bind(this);
 
@@ -58,9 +58,9 @@ class PostDetail extends Component {
     }
 
     sendComment(isNew, comment) {
-        
-            this.props.addOrUpdateComment(isNew, comment)
-          }
+
+        this.props.addOrUpdateComment(isNew, comment)
+    }
 
     render() {
         const {
@@ -76,8 +76,8 @@ class PostDetail extends Component {
             deleteComment,
             addOrUpdateComment
           } = this.props
-      console.log("posts.id: " + posts.id)
-        let  comment = { 
+        console.log("posts.id: " + posts.id)
+        let comment = {
             author: '',
             timestamp: Date.now(),
             body: '',
@@ -86,7 +86,7 @@ class PostDetail extends Component {
         }
 
         return (
-         
+
             <div className="container">
                 <h1>{posts.title}</h1>
                 <div className="row">
@@ -158,15 +158,15 @@ class PostDetail extends Component {
                     <br />
                 </div>
 
-                <If condition={this.state.showNewCommentForm}>            
+                <If condition={this.state.showNewCommentForm}>
                     <Then>
                         <div>
                             <br />
-                            <hr /> 
+                            <hr />
                             <ConfigComment
                                 sendComment={this.sendComment}
                                 comment={comment}
-                                postId={posts.id} /> 
+                                postId={posts.id} />
                             <hr />
                         </div>
                     </Then>
@@ -180,8 +180,8 @@ class PostDetail extends Component {
                         comments.map((comment) => (<Comment
                             key={comment.id}
                             comment={comment}
-                            addVote={addVote}
-                            removeVote={removeVote}
+                            addVote={addCommentVote}
+                            removeVote={removeCommentVote}
                             deleteComment={deleteComment}
                             addOrUpdateComment={addOrUpdateComment} />))
                     } </div>
@@ -222,9 +222,9 @@ const mapDispatchToProps = (dispatch) => {
         addVote: (postId) => dispatch(PostActions.addPostVote(postId)),
         removeVote: (postId) => dispatch(PostActions.removePostVote(postId)),
         deletePost: (postId) => dispatch(PostActions.deletePost(postId)),
-        // addCommentVote: (commentId) => dispatch(CommentActions.addCommentVote(commentId)),
-        // removeCommentVote: (commentId) => dispatch(CommentActions.removeCommentVote(commentId)),
-        // deleteComment: (commentId) => dispatch(CommentActions.deleteComment(commentId)),
+        addCommentVote: (commentId) => dispatch(CommentActions.addCommentVote(commentId)),
+        removeCommentVote: (commentId) => dispatch(CommentActions.removeCommentVote(commentId)),
+        deleteComment: (commentId) => dispatch(CommentActions.deleteComment(commentId)),
         addOrUpdateComment: (isNew, comment) => dispatch(CommentActions.addOrUpdateComment(isNew, comment))
     }
 }
