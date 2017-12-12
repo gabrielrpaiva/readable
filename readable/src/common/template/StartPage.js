@@ -47,7 +47,6 @@ const mapStateToProps = (state, ownProps) => ({
   categories: state.CategoriesReducers.categories,
   currentCategory: ownProps.match.params.category,
   posts: postSelectors.getPostsByCategory(state.PostsReducers, ownProps.match.params.category),
- // post: postSelectors.getPostsByIdInternal(state.PostsReducers, ownProps.match.params.postId)
 })
 
 const mapDispatchToProps = (dispatch) => {

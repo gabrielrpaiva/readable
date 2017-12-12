@@ -20,9 +20,6 @@ class ConfigPosts extends Component {
             body: posts.body
         }
 
-
-
-
         this.handleChange = this.handleChange.bind(this);
 
         this.sendPost = this.sendPost.bind(this);
@@ -46,6 +43,7 @@ class ConfigPosts extends Component {
     componentWillReceiveProps(nextProps) {
 
         let verifyNew = true;
+
         if (nextProps.posts.id === undefined) {
             this.setState({
                 id: Randomstring.generate(), new: verifyNew,
@@ -60,9 +58,6 @@ class ConfigPosts extends Component {
                 category: nextProps.posts.category, author: nextProps.posts.author, title: nextProps.posts.title, body: nextProps.posts.body
             })
         }
-
-
-
 
     }
 
@@ -86,9 +81,7 @@ class ConfigPosts extends Component {
 
     render() {
 
-        const {
-            categories, posts
-          } = this.props
+        const {categories, posts} = this.props
  
         return (
             <div className="container">
@@ -153,7 +146,6 @@ class ConfigPosts extends Component {
 ConfigPosts.defaultProps = {
 
     posts: {
-        // id: Randomstring.generate(),
         timestamp: Date.now(),
         body: '',
         author: '',

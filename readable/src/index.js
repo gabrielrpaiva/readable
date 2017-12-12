@@ -9,10 +9,8 @@ import { Provider } from 'react-redux'
 import reducers from './MainReducers'
 import ApiCallerMiddleware from '../src/middlewares/ApiCallerMiddleware'
 import {createStore,applyMiddleware, compose} from 'redux'
-import {createLogger} from 'redux-logger'
+import {createLogger} from 'redux-logger'  
 
-  
-//const store = configureStores()
 const store =  (createStore)(reducers, 
   applyMiddleware(ApiCallerMiddleware,createLogger())
 )

@@ -86,7 +86,7 @@ const loadPosts = (state = postsInitialState, action) => {
     }
   }
 
-/* Merge all reducer into a single one */
+
 const allPostsReducer = reduceReducers(loadPosts, orderPosts, postVotes,deletePost)
 
 export default allPostsReducer

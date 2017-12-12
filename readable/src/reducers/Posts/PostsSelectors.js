@@ -33,15 +33,6 @@ export const getPostsByIdInternal = (postsState, postId) => {
       .filter((post) => post.id === postId)[0]
   } 
 
-/* export const getPostsById = createSelector([
-      getAllComments
-  ], (posts, comments) => {
-    return post !== undefined ? {
-      ...post,
-      commentsCount: comments.filter((comment) => comment.parentId === post.id).length
-    } : null
-  })
- */
   export const getPostsById = (postsState, postId) => { 
     getPostsByIdInternal(postsState, postId)
  

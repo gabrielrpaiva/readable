@@ -1,26 +1,23 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import { withRouter } from 'react-router'
 import PropTypes from 'prop-types';
 import Randomstring from 'randomstring';
- 
+
 class ConfigComment extends Component {
 
   constructor(props) {
     super(props);
 
-    const {comment} = props
+    const { comment } = props
 
     this.state = {
       author: comment.author,
       body: comment.body
     }
 
-    this.handleChange = this
-      .handleChange
-      .bind(this);
+    this.handleChange = this.handleChange.bind(this);
 
-    this.sendComment = this
-      .sendComment
-      .bind(this);
+    this.sendComment = this.sendComment.bind(this);
   }
 
   handleChange(event) {
@@ -30,18 +27,23 @@ class ConfigComment extends Component {
   }
 
   sendComment() {
-    const {comment, postId} = this.props
-    const isNew = comment.id === null
- 
+    const { comment, postId } = this.props
+    let isNew = false 
+
+    if (comment.id === "") {
+      isNew = true
+      comment.id = Randomstring.generate()
+    }
+
+
     this.props.sendComment(isNew, {
-        ...comment,
-        id: isNew
-          ? Randomstring.generate()
-          : comment.id,
-        body: this.state.body,
-        author: this.state.author,
-        parentId: postId
-      })
+      ...comment,
+      id: comment.id,
+      body: this.state.body,
+      author: this.state.author,
+      parentId: postId
+    })
+     
 
   }
 
@@ -57,7 +59,7 @@ class ConfigComment extends Component {
             name="author"
             placeholder="Author"
             value={this.state.author}
-            onChange={this.handleChange}/>
+            onChange={this.handleChange} />
         </div>
         <div className="form-group">
           <label htmlFor="comment">Comment</label>
@@ -68,7 +70,7 @@ class ConfigComment extends Component {
             name="body"
             placeholder="comment"
             value={this.state.body}
-            onChange={this.handleChange}/>
+            onChange={this.handleChange} />
         </div>
         <button className="btn btn-primary" onClick={() => this.sendComment()}>Send</button>
       </div>
@@ -76,7 +78,7 @@ class ConfigComment extends Component {
   }
 
 }
- 
+
 ConfigComment.defaultProps = {
   comment: {
     id: null,

@@ -104,10 +104,10 @@ export const ADD_OR_UPDATE_COMMENT_FAILURE = 'ADD_OR_UPDATE_COMMENT_FAILURE'
  * Adds or update a single comment to a post
  */
 export const addOrUpdateComment = (isNew, comment) => {
- 
+ console.log("comment: " + comment.author);
 
   return {
-    type: API_CALL,
+    type: API_CALL, 
     types: [
       ADD_OR_UPDATE_COMMENT_PROCESSING, ADD_OR_UPDATE_COMMENT_SUCCESS, ADD_OR_UPDATE_COMMENT_FAILURE
     ],

@@ -15,13 +15,9 @@ class Comment extends Component {
       isEditing: false
     }
 
-    this.chageEditionMode = this
-      .chageEditionMode
-      .bind(this);
+    this.chageEditionMode = this.chageEditionMode.bind(this);
 
-    this.sendComment = this
-      .sendComment
-      .bind(this);
+    this.sendComment = this.sendComment.bind(this);
   }
 
   chageEditionMode() {
@@ -33,11 +29,9 @@ class Comment extends Component {
   }
 
   sendComment(isNew, comment) {
-
+    
+    this.props.addOrUpdateComment(isNew, comment)
     this.chageEditionMode()
-    this
-      .props
-      .addOrUpdateComment(isNew, comment)
   }
 
   render() {

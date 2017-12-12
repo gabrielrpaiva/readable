@@ -18,24 +18,16 @@ class PostDetail extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            showNewCommentForm: false
-        }
+        this.state = {showNewCommentForm: false}
 
         const { loadAllPosts, loadAllComments, posts, match } = this.props
         loadAllPosts()
         loadAllComments(match.params.postId)
-        this.handleNewCommentForm = this
-            .handleNewCommentForm
-            .bind(this);
+        this.handleNewCommentForm = this.handleNewCommentForm.bind(this);
 
-        this.addNewComment = this
-            .addNewComment
-            .bind(this);
+        this.addNewComment = this.addNewComment.bind(this);
 
-        this.sendComment = this
-            .sendComment
-            .bind(this);
+        this.sendComment = this.sendComment.bind(this);
 
     }
 
@@ -48,17 +40,15 @@ class PostDetail extends Component {
 
 
     addNewComment(isNew, comment) {
+       
+      this.props.addOrUpdateComment(isNew, comment)
 
-        this
-            .props
-            .addOrUpdateComment(isNew, comment)
-
-        this.setState({ showNewCommentForm: false })
-
+      this.setState({ showNewCommentForm: false })
+ 
     }
 
     sendComment(isNew, comment) {
-
+ 
         this.props.addOrUpdateComment(isNew, comment)
     }
 
@@ -81,7 +71,7 @@ class PostDetail extends Component {
             author: '',
             timestamp: Date.now(),
             body: '',
-            id: Randomstring.generate(),
+            id: '',
             parentId: ''
         }
 
@@ -164,9 +154,9 @@ class PostDetail extends Component {
                             <br />
                             <hr />
                             <ConfigComment
-                                sendComment={this.sendComment}
+                                sendComment={this.addNewComment}
                                 comment={comment}
-                                postId={posts.id} />
+                                postId={posts.id}  />
                             <hr />
                         </div>
                     </Then>
@@ -195,7 +185,6 @@ class PostDetail extends Component {
 
 PostDetail.defaultProps = {
     posts: {
-        // id: Randomstring.generate(),
         timestamp: Date.now(),
         body: '',
         author: '',
@@ -210,8 +199,6 @@ const mapStateToProps = (state, ownProps) => {
     return {
         posts: postSelectors.getPostsByIdInternal(state.PostsReducers, ownProps.match.params.postId),
         comments: commentsSelectors.getCommentsByPostId(state.commentsReducers, ownProps),
-        //isPostsLoading: state.postsReducers.isPending,
-        //isCommentsLoading: state.commentsReducers.isPending
     }
 }
 
