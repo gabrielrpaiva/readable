@@ -44,7 +44,7 @@ class Comment extends Component {
 
     Moment.locale('en')
     const {comment, addVote, removeVote, deleteComment} = this.props
-    console.log("this.state.isEditing: " + this.state.isEditing)
+   
     return ((!this.state.isEditing)
       ? (
         <div className="col-sm-12">

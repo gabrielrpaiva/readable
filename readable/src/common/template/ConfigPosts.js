@@ -69,7 +69,7 @@ class ConfigPosts extends Component {
     sendPost() {
 
         const { posts, addOrUpdatePost } = this.props
-        console.log("this.state.category: " + this.state.category)
+    
         addOrUpdatePost(this.state.new, {
             ...posts,
             id: this.state.id,
@@ -89,19 +89,7 @@ class ConfigPosts extends Component {
         const {
             categories, posts
           } = this.props
-
-
-        /*   if (posts !== undefined) {
-  
-  
-              this.state = {
-                  category: posts.category,
-                  author: posts.author,
-                  title: posts.title,
-                  body: posts.body
-              }
-  
-          }  */
+ 
         return (
             <div className="container">
                 <h1>Post</h1>

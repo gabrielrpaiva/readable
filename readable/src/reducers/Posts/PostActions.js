@@ -102,7 +102,7 @@ export const ADD_OR_UPDATE_POST_FAILURE = 'ADD_OR_UPDATE_POST_FAILURE'
  * @param {*} post
  */
 export const addOrUpdatePost = (isNew, post) => {
-  console.log("this.state.title isNew: " + isNew)
+ 
   return {
     type: API_CALL,
     types: [

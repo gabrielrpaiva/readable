@@ -21,7 +21,7 @@ const getAllPostsInternal = (state) => {
 
 
 export const getPostsByIdInternal = (postsState, postId) => {
-    console.log(postsState.posts.length)
+ 
     if (postsState.posts.length === 0) {
         
                 return postsState.posts 

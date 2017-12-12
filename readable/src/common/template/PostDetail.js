@@ -76,7 +76,7 @@ class PostDetail extends Component {
             deleteComment,
             addOrUpdateComment
           } = this.props
-        console.log("posts.id: " + posts.id)
+     
         let comment = {
             author: '',
             timestamp: Date.now(),

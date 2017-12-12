@@ -30,10 +30,10 @@ class Posts extends Component {
 
         /* Get the variables from the props */
         const { posts, sortOrderPosts, addVote, removeVote, deletePost, currentCategory } = this.props
-        console.log("posts: " + posts)
+
         return (
             <div className="container">
-                <h1>See all {currentCategory} posts</h1>
+                <h1>Showing all {currentCategory} posts</h1>
                 <div className="form-group">
                     <label>Posts Order</label>
                     <select
@@ -47,7 +47,7 @@ class Posts extends Component {
                 </div>
 
 
-                {posts.map((post) => (
+                {posts.map((post,index) => (
                     <div key={post.id} className="col-sm-6">
                         <div className="card" >
 
@@ -64,64 +64,54 @@ class Posts extends Component {
 
                             <If condition={this.state.postId === post.id}>
                                 <Then>
-                                    <div className="card-body">
-                                        <h4 className="card-title">{post.title}</h4>
-                                        <p className="card-text">{post.body}</p>
-                                        <NavLink
-                                            key={post.id}
-                                            to={`/posts/edit/${post.id}`}
-                                            className='card-link'
-                                            title='Edit'>Edit</NavLink>
-                                        <NavLink
-                                            key={post.id}
-                                            to={`/${post.category}/${post.id}`}
-                                            className='card-link'
-                                            title='Details'>Details</NavLink>
-                                        {/*    <NavLinkWithIcon
-                                            exact
-                                            className='card-link'
-                                            text='Details'
-                                            icontype={< Material.MdOpenInNew />}
-                                            to={`/${post.category}/${post.id}`} /> */}
-                                        {/*    <NavLinkWithIcon
-                                            exact
-                                            className='card-link'
-                                            text='Edit'
-                                            icontype={< Material.MdEdit />}
-                                            to={`/posts/${post.id}/edit`} /> */}
-                                        <button
-                                            className="btn btn-danger float-right"
-                                            onClick={(event) => deletePost(post.id)}>
-                                            Delete
-                         </button>
-                                        <button
-                                            className="btn btn-dark float-right"
-                                            onClick={(event) => addVote(post.id)}>
-                                            <Material.MdAdd />{' '}
-                                            Vote
-                         </button>
-                                        <button
-                                            className="btn btn-dark float-right"
-                                            onClick={(event) => removeVote(post.id)}>
-                                            <Material.MdRemove />{' '}
-                                            Vote
-                         </button>
-                                    </div>
-                                    <div className="card-footer">
-                                        <div className="row">
-                                            <div className="col text-left">
-                                                {post.timestamp}
-                                            </div>
-                                            <div className="col text-center">
-                                                {post.commentsCount}{' '}
-                                                Comments
-                           </div>
-                                            <div className="col text-right">
-                                                {post.voteScore}{' '}
-                                                Votes
-                           </div>
+                                    <section>
+                                        <div className="card-body">
+                                            <h4 className="card-title">{post.title}</h4>
+                                            <p className="card-text">{post.body}</p>
+                                            <NavLink
+                                                key={post.id}
+                                                to={`/posts/edit/${post.id}`}
+                                                className='card-link'
+                                                title='Edit'>Edit</NavLink>
+                                            <NavLink
+                                                key={"detail" + post.id}
+                                                to={`/${post.category}/${post.id}`}
+                                                className='card-link'
+                                                title='Details'>Details</NavLink>
+                                            <button
+                                                className="btn btn-danger float-right"
+                                                onClick={(event) => deletePost(post.id)}>
+                                                Delete
+                                       </button>
+                                            <button
+                                                className="btn btn-dark float-right"
+                                                onClick={(event) => addVote(post.id)}>
+                                                <Material.MdAdd />{' '}
+                                                Vote
+                                        </button>
+                                            <button
+                                                className="btn btn-dark float-right"
+                                                onClick={(event) => removeVote(post.id)}>
+                                                <Material.MdRemove />{' '}
+                                                Vote
+                                        </button>
                                         </div>
-                                    </div>
+                                        <div className="card-footer">
+                                            <div className="row">
+                                                <div className="col text-left">
+                                                    {post.timestamp}
+                                                </div>
+                                                <div className="col text-center">
+                                                    {post.commentsCount}{' '}
+                                                    Comments
+                                             </div>
+                                                <div className="col text-right">
+                                                    {post.voteScore}{' '}
+                                                    Votes
+                                             </div>
+                                            </div>
+                                        </div>
+                                    </section>
                                 </Then>
                             </If>
                         </div>
