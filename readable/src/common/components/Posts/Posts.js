@@ -30,7 +30,9 @@ class Posts extends Component {
 
         /* Get the variables from the props */
         const { posts, sortOrderPosts, addVote, removeVote, deletePost, currentCategory } = this.props
+console.log(posts)
 
+ 
         return (
             <div className="container">
                 <h1>Showing all {currentCategory} posts</h1>
@@ -47,7 +49,7 @@ class Posts extends Component {
                 </div>
 
 
-                {posts.map((post,index) => (
+                {posts.map((post, index) => (
                     <div key={post.id} className="col-sm-6">
                         <div className="card" >
 

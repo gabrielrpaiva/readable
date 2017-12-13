@@ -1,104 +1,73 @@
 import * as ReadableApi from '../../utils/Api'
-import {API_CALL} from '../../middlewares/ApiCallerMiddleware'
+import { API_CALL } from '../../middlewares/ApiCallerMiddleware'
 
-
-export const GET_ALL_POSTS_SUCCESS = 'GET_ALL_POSTS_SUCCESS'
-export const GET_ALL_POSTS_LOADING = 'GET_ALL_POSTS_LOADING'
-export const GET_ALL_POSTS_FAILURE = 'GET_ALL_POSTS_FAILURE'
+ 
 export const SET_ALL_POSTS_ORDER = 'SET_ALL_POSTS_ORDER'
 
 
-export const getAllPostsRequest = () => { 
-  return {
-    type: API_CALL,
-    types: [
-      GET_ALL_POSTS_LOADING, GET_ALL_POSTS_SUCCESS, GET_ALL_POSTS_FAILURE
-    ],
-    callMethod: () => ReadableApi.getAllPosts()
-  }
-}
+export const GET_ALL_POSTS = 'GET_ALL_POSTS'
 
-export const setAllPostsOrder = (column) => ({type: SET_ALL_POSTS_ORDER, column})
+/* Get Posts */
+export const getAllPosts = posts => ({
+  type: GET_ALL_POSTS,
+  posts
+});
 
-export const ADD_POST_VOTE_SUCCESS = 'ADD_POST_VOTE_SUCCESS'
-export const ADD_POST_VOTE_PROCESSING = 'ADD_POST_VOTE_PROCESSING'
-export const ADD_POST_VOTE_FAILURE = 'ADD_POST_VOTE_FAILURE'
+export const getAllPostsRequest = () => dispatch => (
+  ReadableApi.getAllPosts()
+    .then(posts => dispatch(getAllPosts(posts)))
+);
 
 
-export const addPostVote = (postId) => {
-  const voteChange = 'upVote'
-
-  return {
-    type: API_CALL,
-    types: [
-      ADD_POST_VOTE_PROCESSING, ADD_POST_VOTE_SUCCESS, ADD_POST_VOTE_FAILURE
-    ],
-    callMethod: () => ReadableApi.addVoteOnPost(postId, voteChange),
-    payload: {
-      postId,
-      voteChange
-    }
-  }
-}
-
-export const REMOVE_POST_VOTE_SUCCESS = 'REMOVE_POST_VOTE_SUCCESS'
-export const REMOVE_POST_VOTE_PROCESSING = 'REMOVE_POST_VOTE_PROCESSING'
-export const REMOVE_POST_VOTE_FAILURE = 'REMOVE_POST_VOTE_FAILURE'
+/* Order Posts */
+export const setAllPostsOrder = (column) => ({ type: SET_ALL_POSTS_ORDER, column })
 
 
-export const removePostVote = (postId) => {
-  const voteChange = 'downVote'
+/* Vote Posts */
+export const ADD_POST_VOTE = 'ADD_POST_VOTE'
 
-  return {
-    type: API_CALL,
-    types: [
-      REMOVE_POST_VOTE_PROCESSING, REMOVE_POST_VOTE_SUCCESS, REMOVE_POST_VOTE_FAILURE
-    ],
-    callMethod: () => ReadableApi.addVoteOnPost(postId, voteChange),
-    payload: {
-      postId,
-      voteChange
-    }
-  }
-}
+export const addVote = postId => ({
+  type: ADD_POST_VOTE,
+  postId
+});
 
+export const addPostVote = (postId) => dispatch => (
+  ReadableApi.addVoteOnPost(postId, 'upVote')
+    .then(posts => dispatch(addVote(postId)))
+);
 
-export const DELETE_POST_SUCCESS = 'DELETE_POST_SUCCESS'
-export const DELETE_POST_PROCESSING = 'DELETE_POST_PROCESSING'
-export const DELETE_POST_FAILURE = 'DELETE_POST_FAILURE'
+export const REMOVE_POST_VOTE = 'REMOVE_POST_VOTE'
 
+export const removeVote = postId => ({
+  type: REMOVE_POST_VOTE,
+  postId
+});
 
-export const deletePost = (postId) => {
-  return {
-    type: API_CALL,
-    types: [
-      DELETE_POST_PROCESSING, DELETE_POST_SUCCESS, DELETE_POST_FAILURE
-    ],
-    callMethod: () => ReadableApi.deletePost(postId),
-    payload: {
-      postId
-    }
-  }
-}
+export const removePostVote = (postId) => dispatch => (
+  ReadableApi.addVoteOnPost(postId, 'downVote')
+    .then(posts => dispatch(removeVote(postId)))
+);
 
+/* Delete Posts */
+export const DELETE_POST = 'DELETE_POST'
+export const sendDelete = postId => ({
+  type: DELETE_POST,
+  postId
+});
 
-export const ADD_OR_UPDATE_POST_SUCCESS = 'ADD_OR_UPDATE_POST_SUCCESS'
-export const ADD_OR_UPDATE_POST_PROCESSING = 'ADD_OR_UPDATE_POST_PROCESSING'
-export const ADD_OR_UPDATE_POST_FAILURE = 'ADD_OR_UPDATE_POST_FAILURE'
+export const deletePost = (postId) => dispatch => ( 
+  ReadableApi.deletePost(postId).then(posts => dispatch(sendDelete(postId)))  
+);
 
-export const addOrUpdatePost = (isNew, post) => {
- 
-  return {
-    type: API_CALL,
-    types: [
-      ADD_OR_UPDATE_POST_PROCESSING, ADD_OR_UPDATE_POST_SUCCESS, ADD_OR_UPDATE_POST_FAILURE
-    ],
-    callMethod: () => (isNew
-      ? ReadableApi.addPost(post)
-      : ReadableApi.editPostDetails(post.id, post)),
-    payload: {
-      post,
-      isNew
-    }
-  }
-}
+ /* Update Posts */
+export const UPDATE_POST = 'UPDATE_POST'
+export const configPost = post => ({
+  type: UPDATE_POST,
+  post
+});
+
+ /* Insert and Update Posts */
+export const addOrUpdatePost = (isNew, post) => dispatch => (
+  isNew ? ReadableApi.addPost(post) : 
+  ReadableApi.editPostDetails(post.id,post).then(posts => dispatch(configPost(post)))  
+);

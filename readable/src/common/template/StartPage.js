@@ -14,12 +14,14 @@ class StartPage extends Component {
     this.state = {}
   }
 
+  
+
   componentDidMount() {
-    const { loadAllCategories, loadAllPosts } = this.props
+    const { loadAllCategories, loadAllPosts,posts } = this.props
 
     loadAllCategories()
     loadAllPosts()
-
+ 
   }
 
   render() {
@@ -28,7 +30,7 @@ class StartPage extends Component {
       posts,
       sortOrderPosts, addVote, removeVote, deletePost,currentCategory
     } = this.props
-    
+ 
     return (
       <section>
         <CategoriesList categories={categories} />
