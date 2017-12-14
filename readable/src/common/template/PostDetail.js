@@ -41,7 +41,7 @@ class PostDetail extends Component {
 
     addNewComment(isNew, comment) {
        
-      this.props.addOrUpdateComment(isNew, comment)
+      this.props.addOrUpdateComment(true, comment)
 
       this.setState({ showNewCommentForm: false })
  
@@ -74,6 +74,7 @@ class PostDetail extends Component {
             id: '',
             parentId: ''
         }
+ 
 
         return (
 
@@ -198,21 +199,21 @@ PostDetail.defaultProps = {
 const mapStateToProps = (state, ownProps) => {
     return {
         posts: postSelectors.getPostsByIdInternal(state.PostsReducers, ownProps.match.params.postId),
-        comments: commentsSelectors.getCommentsByPostId(state.commentsReducers, ownProps),
+        comments: commentsSelectors.commentsByPostId(state.commentsReducers, ownProps),
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         loadAllPosts: () => dispatch(PostActions.getAllPostsRequest()),
-        loadAllComments: (postId) => dispatch(CommentActions.allCommentsByPostRequest(postId)),
+        loadAllComments: (postId) => dispatch(CommentActions.getAllCommentsByPost(postId)),
         addVote: (postId) => dispatch(PostActions.addPostVote(postId)),
         removeVote: (postId) => dispatch(PostActions.removePostVote(postId)),
         deletePost: (postId) => dispatch(PostActions.deletePost(postId)),
         addCommentVote: (commentId) => dispatch(CommentActions.addCommentVote(commentId)),
         removeCommentVote: (commentId) => dispatch(CommentActions.removeCommentVote(commentId)),
-        deleteComment: (commentId) => dispatch(CommentActions.deleteComment(commentId)),
-        addOrUpdateComment: (isNew, comment) => dispatch(CommentActions.addOrUpdateComment(isNew, comment))
+        deleteComment: (commentId) => dispatch(CommentActions.deleteComments(commentId)),
+        addOrUpdateComment: (isNew, comment) => dispatch(CommentActions.addOrUpdateComments(isNew, comment))
     }
 }
 

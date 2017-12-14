@@ -6,14 +6,13 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import configureStore from '../src/myStore/configStore'
 import { Provider } from 'react-redux'
-import reducers from './MainReducers'
-import ApiCallerMiddleware from '../src/middlewares/ApiCallerMiddleware'
+import reducers from './MainReducers' 
 import {createStore,applyMiddleware, compose} from 'redux'
 import {createLogger} from 'redux-logger'  
 import thunk from 'redux-thunk';
 
 const store =  (createStore)(reducers, 
-  applyMiddleware(ApiCallerMiddleware,createLogger(),thunk)
+  applyMiddleware(createLogger(),thunk)
 )
 
 ReactDOM.render(

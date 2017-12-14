@@ -1,129 +1,103 @@
 import * as Actions from './CommentsActions'
 import reduceReducers from '../../../src/utils/reducers-util'
 
-const allCommentsInitialState = {
+const commentsInitialState = {
   comments: [],
   isPending: false
 }
+ 
 
 /**
- * Load all comments
- * @param {*} state
- * @param {*} action
+ * Get  comments
  */
-const loadCommentsByPost = (state = allCommentsInitialState, action) => {
+const getCommentsByPost = (state = commentsInitialState, action) => {
+
   switch (action.type) {
-    case Actions.GET_ALL_COMMENTS_BY_POST_SUCCESS:
+    case Actions.GET_ALL_COMMENTS_BY_POST:
       return {
         ...state,
-        comments: Object.assign([], state.comments, action.response.filter(comment => !comment.deleted && !comment.parentDeleted)),
+        comments: Object.assign([], state.comments, action.comments.filter(comment => !comment.deleted && !comment.parentDeleted)),
         isPending: false
-      }
-    case Actions.GET_ALL_COMMENTS_BY_POST_LOADING:
-      return {
-        ...state,
-        isPending: true
-      }
+      } 
     default:
       return state;
   }
 }
 
+
 /**
- * Handle comment votes
- * @param {*} state
- * @param {*} action
+ * Vote a comment
  */
-const commentVotes = (state = allCommentsInitialState, action) => {
+const commentVotes = (state = commentsInitialState, action) => {  
   switch (action.type) {
-    case Actions.ADD_COMMENT_VOTE_SUCCESS:
+    case Actions.ADD_COMMENT_VOTE:
+    return {
+      ...state,
+      comments: state.comments.map((comment) => (comment.id === action.commentId ? {
+            ...comment,
+            voteScore: comment.voteScore + 1
+          }
+          : comment))
+    }  
+    case Actions.REMOVE_COMMENT_VOTE:
       return {
         ...state,
-        comments: state
-          .comments
-          .map((comment) => (comment.id === action.payload.commentId
-            ? {
-              ...comment,
-              voteScore: comment.voteScore + 1
-            }
-            : comment)),
-        isProcessingVotes: false
-      }
-    case Actions.ADD_COMMENT_VOTE_PROCESSING:
-      return {
-        ...state,
-        isProcessingVotes: true
-      }
-    case Actions.REMOVE_COMMENT_VOTE_SUCCESS:
-      return {
-        ...state,
-        comments: state
-          .comments
-          .map((comment) => (comment.id === action.payload.commentId
-            ? {
+        comments: state.comments.map((comment) => (comment.id === action.commentId ? {
               ...comment,
               voteScore: comment.voteScore - 1
             }
-            : comment)),
-        isProcessingVotes: false
-      }
-    case Actions.REMOVE_COMMENT_VOTE_PROCESSING:
-      return {
-        ...state,
-        isProcessingVotes: true
-      }
+            : comment))
+      } 
     default:
       return state;
   }
 }
+ 
 
 /**
  * Delete a comment
- * @param {*} state
- * @param {*} action
  */
-const deleteComment = (state = allCommentsInitialState, action) => {
+const deleteComment = (state = commentsInitialState, action) => {
   switch (action.type) {
-    case Actions.DELETE_COMMENT_SUCCESS:
+    case Actions.DELETE_COMMENT:
       return {
         ...state,
-        comments: state
-          .comments
-          .filter(comment => comment.id !== action.payload.commentId)
+        comments: state.comments.filter(comment => comment.id !== action.commentId)
       }
     default:
       return state;
   }
 }
+
 
 /**
- * Add or update a Comment
- * @param {*} state
- * @param {*} action
+ * Add or update a comment
  */
-const addOrUpdateComment = (state = allCommentsInitialState, action) => {
+const addOrUpdateComment = (state = commentsInitialState, action) => {
   switch (action.type) {
-    case Actions.ADD_OR_UPDATE_COMMENT_SUCCESS:
+    case Actions.ADD_COMMENT:
       return {
         ...state,
-        comments: action.payload.isNew
-          ? [
-            ...state.comments,
-            action.payload.comment
-          ]
-          : state
-            .comments
-            .map(comment => comment.id === action.payload.comment.id
-              ? action.payload.comment
-              : comment)
+        comments: [
+          ...state.comments,
+          action.comment
+        ]
+      }
+      case Actions.UPDATE_COMMENT:
+      return {
+        ...state,
+        comments:  state.comments.map((comment) => (comment.id === action.comment.id ? 
+          action.comment           
+        : comment))
       }
     default:
       return state;
   }
 }
 
+
 /* Merge all reducer into a single one */
-const allCommentsReducer = reduceReducers(loadCommentsByPost, commentVotes, deleteComment, addOrUpdateComment)
+const allCommentsReducer = reduceReducers(getCommentsByPost, commentVotes, deleteComment, addOrUpdateComment)
 
 export default allCommentsReducer
 

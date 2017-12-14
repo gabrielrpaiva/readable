@@ -4,12 +4,13 @@ import reduceReducers from '../../../src/utils/reducers-util'
 
 
 const postsInitialState = {
-    posts: []
+    posts: [],
+    columnForAllPosts: 'voteScore'
 }
 
 
   const getPosts = (state = postsInitialState, action) => {
- 
+    
     switch (action.type) {
       case Actions.GET_ALL_POSTS:
         return {
