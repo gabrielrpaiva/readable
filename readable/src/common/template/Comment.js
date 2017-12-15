@@ -11,19 +11,17 @@ class Comment extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      isEditing: false
-    }
+    this.state = {editComment: false}
 
-    this.chageEditionMode = this.chageEditionMode.bind(this);
+    this.controlEdition = this.controlEdition.bind(this);
 
     this.sendComment = this.sendComment.bind(this);
   }
 
-  chageEditionMode() {
+  controlEdition() {
 
     this.setState((prevState, props) => ({
-      isEditing: !prevState.isEditing
+      editComment: !prevState.editComment
     }))
 
   }
@@ -31,7 +29,7 @@ class Comment extends Component {
   sendComment(isNew, comment) {
     
     this.props.addOrUpdateComment(isNew, comment)
-    this.chageEditionMode()
+    this.controlEdition()
   }
 
   render() {
@@ -39,7 +37,7 @@ class Comment extends Component {
     Moment.locale('en')
     const {comment, addVote, removeVote, deleteComment} = this.props
    
-    return ((!this.state.isEditing)
+    return ((!this.state.editComment)
       ? (
         <div className="col-sm-12">
           <div className="card">
@@ -62,7 +60,7 @@ class Comment extends Component {
             <div className="card-footer">
               <button
                 className="btn btn-dark float-left"
-                onClick={(event) => this.chageEditionMode()}>
+                onClick={(event) => this.controlEdition()}>
                 <Material.MdEdit/>{' '}
                 Edit
               </button>

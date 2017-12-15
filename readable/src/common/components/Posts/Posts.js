@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom'
+import Moment from 'moment';
 import { If, Then } from 'react-if'
 import * as Material from 'react-icons/lib/md'
 
@@ -7,32 +8,25 @@ import * as Material from 'react-icons/lib/md'
 class Posts extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            showBodyPost: false,
-            postId: 0
-        }
+        this.state = { postId: 0 }
 
         this.ctrlPostVisibility = this.ctrlPostVisibility.bind(this);
 
-
-
     }
 
-    /* Function to change the classPopUp State  */
+
     ctrlPostVisibility = (id) => {
 
-        /*  Change the classPopUp state, so the pop can hide */
         this.setState({ postId: this.state.postId === id ? 0 : id });
 
     }
 
     render() {
 
-        /* Get the variables from the props */
+      
         const { posts, sortOrderPosts, addVote, removeVote, deletePost, currentCategory } = this.props
-console.log(posts)
-
  
+
         return (
             <div className="container">
                 <h1>Showing all {currentCategory} posts</h1>
@@ -101,10 +95,10 @@ console.log(posts)
                                         <div className="card-footer">
                                             <div className="row">
                                                 <div className="col text-left">
-                                                    {post.timestamp}
+                                                {Moment(post.timestamp).format('MM/D/YYYY')}
                                                 </div>
                                                 <div className="col text-center">
-                                                    {post.commentsCount}{' '}
+                                                    {post.commentCount - 1}{' '}
                                                     Comments
                                              </div>
                                                 <div className="col text-right">
