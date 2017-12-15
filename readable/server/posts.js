@@ -5,47 +5,29 @@ let db = {}
 const defaultData = {
   "8xf0y6ziyjabvozdd253nd": {
     id: '8xf0y6ziyjabvozdd253nd',
-    timestamp: 1493607600000,
+    timestamp: 1467166872634,
     title: 'Udacity is the best place to learn React',
     body: 'Everyone says so after all.',
     author: 'thingtwo',
     category: 'react',
-    voteScore: 1,
-    deleted: false
-  },
-  "1af0y6ziyjabvozdd25323": {
-    id: '1af0y6ziyjabvozdd25323',
-    timestamp: 1491015600000,
-    title: 'Learning is Great!',
-    body: 'I\'m telliing you!',
-    author: 'thingthree',
-    category: 'react',
-    voteScore: 2,
-    deleted: false
+    voteScore: 6,
+    deleted: false,
+    commentCount: 2
   },
   "6ni6ok3ym7mf1p33lnez": {
     id: '6ni6ok3ym7mf1p33lnez',
-    timestamp: 1488337200000,
+    timestamp: 1468479767190,
     title: 'Learn Redux in 10 minutes!',
     body: 'Just kidding. It takes more than 10 minutes to learn technology.',
     author: 'thingone',
     category: 'redux',
-    voteScore: 3,
-    deleted: false
-  },
-  "6ni6ok3ym7mf1p33ldfg": {
-    id: '6ni6ok3ym7mf1p33ldfg',
-    timestamp: 1485914400000,
-    title: 'Learn Redux in 50 minutes!',
-    body: 'Just kidding. It takes more than 50 minutes to learn technology.',
-    author: 'thingone',
-    category: 'redux',
-    voteScore: 4,
-    deleted: false
+    voteScore: -5,
+    deleted: false,
+    commentCount: 0
   }
 }
 
-function getData(token) {
+function getData (token) {
   let data = db[token]
   if (data == null) {
     data = db[token] = clone(defaultData)
@@ -53,44 +35,36 @@ function getData(token) {
   return data
 }
 
-function getByCategory(token, category) {
-
+function getByCategory (token, category) {
   return new Promise((res) => {
     let posts = getData(token)
     let keys = Object.keys(posts)
     let filtered_keys = keys.filter(key => posts[key].category === category && !posts[key].deleted)
-
-    setTimeout(function () {
-      res(filtered_keys.map(key => posts[key]))
-    }, 3000)
-
+    res(filtered_keys.map(key => posts[key]))
   })
-
 }
 
-function get(token, id) {
+function get (token, id) {
   return new Promise((res) => {
     const posts = getData(token)
-    res(posts[id].deleted
-      ? {}
-      : posts[id])
+    res(
+      posts[id].deleted
+        ? {}
+        : posts[id]
+    )
   })
 }
 
-function getAll(token) {
+function getAll (token) {
   return new Promise((res) => {
     const posts = getData(token)
     let keys = Object.keys(posts)
     let filtered_keys = keys.filter(key => !posts[key].deleted)
-
-    setTimeout(function () {
-      res(filtered_keys.map(key => posts[key]))
-    }, 3000)
-
+    res(filtered_keys.map(key => posts[key]))
   })
 }
 
-function add(token, post) {
+function add (token, post) {
   return new Promise((res) => {
     let posts = getData(token)
 
@@ -102,47 +76,55 @@ function add(token, post) {
       author: post.author,
       category: post.category,
       voteScore: 1,
-      deleted: false
+      deleted: false,
+      commentCount: 0
     }
 
     res(posts[post.id])
   })
 }
 
-function vote(token, id, option) {
+function vote (token, id, option) {
   return new Promise((res) => {
     let posts = getData(token)
     post = posts[id]
-    switch (option) {
-      case "upVote":
-        post.voteScore = post.voteScore + 1
-        break
-      case "downVote":
-        post.voteScore = post.voteScore - 1
-        break
-      default:
-        console.log(`posts.vote received incorrect parameter: ${option}`)
+    switch(option) {
+        case "upVote":
+            post.voteScore = post.voteScore + 1
+            break
+        case "downVote":
+            post.voteScore = post.voteScore - 1
+            break
+        default:
+            console.log(`posts.vote received incorrect parameter: ${option}`)
     }
     res(post)
   })
 }
 
-function disable(token, id) {
-  return new Promise((res) => {
-    let posts = getData(token)
-    posts[id].deleted = true
-    res(posts[id])
-  })
+function disable (token, id) {
+    return new Promise((res) => {
+      let posts = getData(token)
+      posts[id].deleted = true
+      res(posts[id])
+    })
 }
 
-function edit(token, id, post) {
-  return new Promise((res) => {
-    let posts = getData(token)
-    for (prop in post) {
-      posts[id][prop] = post[prop]
-    }
-    res(posts[id])
-  })
+function edit (token, id, post) {
+    return new Promise((res) => {
+        let posts = getData(token)
+        for (prop in post) {
+            posts[id][prop] = post[prop]
+        }
+        res(posts[id])
+    })
+}
+
+function incrementCommentCounter(token, id, count) {
+  const data = getData(token)
+  if (data[id]) {
+    data[id].commentCount += count
+  }
 }
 
 module.exports = {
@@ -153,5 +135,6 @@ module.exports = {
   vote,
   disable,
   edit,
-  getAll
+  getAll,
+  incrementCommentCounter
 }

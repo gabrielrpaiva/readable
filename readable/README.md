@@ -3,11 +3,17 @@
 
 App para relaizar postagens sobre algumas categorias pre-difiinidas, bem como fazer comentários sobre estas postagens.
 
-## Instalação
+## Instalação da aplicação e do servidor
 
 npm install
 
-## Execusão
+## Execusão do servidor
+
+Acesse o diretório './server' e execute:
+
+node server
+
+## Execusão da aplicação
 
 npm start 
 

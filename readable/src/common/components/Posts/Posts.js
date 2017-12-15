@@ -26,8 +26,9 @@ class Posts extends Component {
       
         const { posts, sortOrderPosts, addVote, removeVote, deletePost, currentCategory } = this.props
  
-
+        console.log("sss: " + posts.map(post => post.commentCount))
         return (
+            
             <div className="container">
                 <h1>Showing all {currentCategory} posts</h1>
                 <div className="form-group">
@@ -98,7 +99,7 @@ class Posts extends Component {
                                                 {Moment(post.timestamp).format('MM/D/YYYY')}
                                                 </div>
                                                 <div className="col text-center">
-                                                    {post.commentCount - 1}{' '}
+                                                    {post.commentCount}{' '}
                                                     Comments
                                              </div>
                                                 <div className="col text-right">

@@ -18,7 +18,7 @@ class PostDetail extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {showNewCommentForm: false}
+        this.state = { showNewCommentForm: false }
 
         const { loadAllPosts, loadAllComments, posts, match } = this.props
         loadAllPosts()
@@ -40,15 +40,15 @@ class PostDetail extends Component {
 
 
     addNewComment(isNew, comment) {
-       
-      this.props.addOrUpdateComment(true, comment)
 
-      this.setState({ showNewCommentForm: false })
- 
+        this.props.addOrUpdateComment(true, comment)
+
+        this.setState({ showNewCommentForm: false })
+
     }
 
     sendComment(isNew, comment) {
- 
+
         this.props.addOrUpdateComment(isNew, comment)
     }
 
@@ -66,7 +66,7 @@ class PostDetail extends Component {
             deleteComment,
             addOrUpdateComment
           } = this.props
-     
+
         let comment = {
             author: '',
             timestamp: Date.now(),
@@ -74,111 +74,116 @@ class PostDetail extends Component {
             id: '',
             parentId: ''
         }
- 
+        console.log("posts.length: " + posts.id)
 
-        return (
-
-            <div className="container">
-                <h1>{posts.title}</h1>
-                <div className="row">
-                    <div className="col text-left">
-                        <p>{posts.body}</p>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col text-left">
-                        Author{' '}{posts.author}
-                    </div>
-                </div>
-                <br />
-                <div className="row">
-                    <div className="col text-left">
-                        {Moment(posts.timestamp).format('MM/D/YYYY')}
-                    </div>
-                    <div className="col text-center">
-                        {posts.voteScore}{' '}
-                        Votes
-            </div>
-                    <div className="col text-right">
-                        {posts.commentsCount}{' '}
-                        Comments
-            </div>
-                </div>
-                <br />
-                <div className="row">
-                    <div className="col-sm-12">
-                        <NavLink
-                            key={posts.id}
-                            to={`/posts/edit/${posts.id}`}
-                            className='card-link'
-                            title='Edit'>Edit</NavLink>
-
-                        <button
-                            className="btn btn-danger float-right"
-                            onClick={(event) => {
-                                deletePost(posts.id);
-                                history.push('/')
-                            }}>
-                            <Material.MdRemove />{' '}
-                            Delete
-              </button>
-                        <button
-                            className="btn btn-dark float-right"
-                            onClick={(event) => addVote(posts.id)}>
-                            <Material.MdAdd />{' '}
-                            Vote
-              </button>
-                        <button
-                            className="btn btn-dark float-right"
-                            onClick={(event) => removeVote(posts.id)}>
-                            <Material.MdRemove />{' '}
-                            Vote
-              </button>
-                    </div>
-                </div>
-                <br />
+        return ((posts.id !== undefined)
+            ? (
                 <div className="container">
-                    <br />
-                    <hr />
-                    <button
-                        className="btn btn-dark float-right"
-                        onClick={(event) => this.handleNewCommentForm()}>
-                        <Material.MdAdd />{' '}
-                        Add new Comment
-            </button>
-                    <br />
-                </div>
-
-                <If condition={this.state.showNewCommentForm}>
-                    <Then>
-                        <div>
-                            <br />
-                            <hr />
-                            <ConfigComment
-                                sendComment={this.addNewComment}
-                                comment={comment}
-                                postId={posts.id}  />
-                            <hr />
+                    <h1>{posts.title}</h1>
+                    <div className="row">
+                        <div className="col text-left">
+                            <p>{posts.body}</p>
                         </div>
-                    </Then>
-                </If>
-
-                <br />
-                <div>
-                    <h1>Comments</h1>
-
-                    <div className="card-deck"> {
-                        comments.map((comment) => (<Comment
-                            key={comment.id}
-                            comment={comment}
-                            addVote={addCommentVote}
-                            removeVote={removeCommentVote}
-                            deleteComment={deleteComment}
-                            addOrUpdateComment={addOrUpdateComment} />))
-                    } </div>
-                </div>
+                    </div>
+                    <div className="row">
+                        <div className="col text-left">
+                            Author{' '}{posts.author}
+                        </div>
+                    </div>
+                    <br />
+                    <div className="row">
+                        <div className="col text-left">
+                            {Moment(posts.timestamp).format('MM/D/YYYY')}
+                        </div>
+                        <div className="col text-center">
+                            {posts.voteScore}{' '}
+                            Votes
             </div>
-        )
+                        <div className="col text-right">
+                            {posts.commentsCount}{' '}
+                            Comments
+            </div>
+                    </div>
+                    <br />
+                    <div className="row">
+                        <div className="col-sm-12">
+                            <NavLink
+                                key={posts.id}
+                                to={`/posts/edit/${posts.id}`}
+                                className='card-link'
+                                title='Edit'>Edit</NavLink>
+
+                            <button
+                                className="btn btn-danger float-right"
+                                onClick={(event) => {
+                                    deletePost(posts.id);
+                                    history.push('/')
+                                }}>
+                                <Material.MdRemove />{' '}
+                                Delete
+              </button>
+                            <button
+                                className="btn btn-dark float-right"
+                                onClick={(event) => addVote(posts.id)}>
+                                <Material.MdAdd />{' '}
+                                Vote
+              </button>
+                            <button
+                                className="btn btn-dark float-right"
+                                onClick={(event) => removeVote(posts.id)}>
+                                <Material.MdRemove />{' '}
+                                Vote
+              </button>
+                        </div>
+                    </div>
+                    <br />
+                    <div className="container">
+                        <br />
+                        <hr />
+                        <button
+                            className="btn btn-dark float-right"
+                            onClick={(event) => this.handleNewCommentForm()}>
+                            <Material.MdAdd />{' '}
+                            Add new Comment
+            </button>
+                        <br />
+                    </div>
+
+                    <If condition={this.state.showNewCommentForm}>
+                        <Then>
+                            <div>
+                                <br />
+                                <hr />
+                                <ConfigComment
+                                    sendComment={this.addNewComment}
+                                    comment={comment}
+                                    postId={posts.id} />
+                                <hr />
+                            </div>
+                        </Then>
+                    </If>
+
+                    <br />
+                    <div>
+                        <h1>Comments</h1>
+
+                        <div className="card-deck"> {
+                            comments.map((comment) => (<Comment
+                                key={comment.id}
+                                comment={comment}
+                                addVote={addCommentVote}
+                                removeVote={removeCommentVote}
+                                deleteComment={deleteComment}
+                                addOrUpdateComment={addOrUpdateComment} />))
+                        } </div>
+                    </div>
+                </div>
+            )
+            : (
+                <div className="container">
+                    <h1>Sorry! But this post no longer exist!</h1>
+                </div>
+            ))
 
     }
 

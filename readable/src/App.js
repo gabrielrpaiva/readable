@@ -4,13 +4,11 @@ import logo from './logo.svg';
 import './App.css';
 
 import MyRoutes from './MyRoutes'
-import Header from '../src/common/template/header'
+import Header from '../src/common/template/header' 
 
-class App extends Component {
-  render() {
-    return (
-       // Iterate All routes
-       <Switch>
+const App = () => {
+  return (
+    <Switch>
        {MyRoutes.map(({path, exact, params, Layout, Component}) => (
          <Route
            key={0}
@@ -25,9 +23,8 @@ class App extends Component {
        ))}
        
      </Switch>
-       
-    );
-  }
+  )
 }
+
 
 export default App;
