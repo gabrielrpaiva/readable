@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
-import {Route, Switch} from 'react-router-dom'
-import logo from './logo.svg';
+import React from 'react';
+import {Route, Switch} from 'react-router-dom'  
 import './App.css';
 
-import MyRoutes from './MyRoutes'
-import Header from '../src/common/template/header' 
+import MyRoutes from './MyRoutes' 
 
 const App = () => {
   return (

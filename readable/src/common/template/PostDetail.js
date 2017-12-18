@@ -10,8 +10,7 @@ import { If, Then } from 'react-if'
 import * as postSelectors from '../../reducers/Posts/PostsSelectors'
 import * as commentsSelectors from '../../reducers/Comments/CommentsSelectors'
 import Comment from '../../common/template/Comment'
-import ConfigComment from './ConfigComment'
-import Randomstring from 'randomstring'
+import ConfigComment from './ConfigComment' 
 
 
 class PostDetail extends Component {
@@ -20,7 +19,7 @@ class PostDetail extends Component {
 
         this.state = { showNewCommentForm: false }
 
-        const { loadAllPosts, loadAllComments, posts, match } = this.props
+        const { loadAllPosts, loadAllComments, match } = this.props
         loadAllPosts()
         loadAllComments(match.params.postId)
         this.handleNewCommentForm = this.handleNewCommentForm.bind(this);
@@ -58,8 +57,7 @@ class PostDetail extends Component {
             addVote,
             removeVote,
             deletePost,
-            history,
-            isPostsLoading,
+            history, 
             comments,
             addCommentVote,
             removeCommentVote,

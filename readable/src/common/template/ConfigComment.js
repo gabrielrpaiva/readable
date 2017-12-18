@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router'
-import PropTypes from 'prop-types';
 import Randomstring from 'randomstring';
 
 class ConfigComment extends Component {
@@ -49,7 +47,7 @@ class ConfigComment extends Component {
 
   render() {
     return (
-      <div className="col-sm-12">
+      <form className="col-sm-12">
         <div className="form-group">
           <label htmlFor="author">Author</label>
           <input
@@ -73,7 +71,7 @@ class ConfigComment extends Component {
             onChange={this.handleChange} />
         </div>
         <button className="btn btn-primary" onClick={() => this.sendComment()}>Send</button>
-      </div>
+      </form>
     )
   }
 

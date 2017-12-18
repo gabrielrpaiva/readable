@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Moment from 'moment';
-import PropTypes from 'prop-types';
 import * as Material from 'react-icons/lib/md' 
 import ConfigComment from './ConfigComment'
 

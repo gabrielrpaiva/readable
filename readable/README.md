@@ -1,7 +1,7 @@
 # Readable
 > Aplicativo para fazer postagens  em categorias pre-definidas.
 
-App para relaizar postagens sobre algumas categorias pre-difiinidas, bem como fazer comentários sobre estas postagens.
+App para relaizar postagens sobre algumas categorias pre-difinidas, bem como fazer comentários sobre estas postagens.
 
 ## Instalação da aplicação e do servidor
 

@@ -1,5 +1,4 @@
-import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
+import React, { Component } from 'react' 
 import { connect } from 'react-redux'
 import { allCategoriesRequest } from '../../reducers/Categories/CategoriesActions'
 import * as PostActions from '../../reducers/Posts/PostActions'
@@ -11,13 +10,12 @@ class StartPage extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {}
   }
 
   
 
   componentDidMount() {
-    const { loadAllCategories, loadAllPosts,posts } = this.props
+    const { loadAllCategories, loadAllPosts } = this.props
 
     loadAllCategories()
     loadAllPosts()

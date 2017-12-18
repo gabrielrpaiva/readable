@@ -81,12 +81,12 @@ class ConfigPosts extends Component {
 
     render() {
 
-        const {categories, posts} = this.props
+        const {categories} = this.props
  
         return (
             <div className="container">
                 <h1>Post</h1>
-                <div className="col-sm-12">
+                <form className="col-sm-12">
                     <div className="form-group">
                         <label htmlFor="comment">title</label>
                         <input
@@ -134,7 +134,7 @@ class ConfigPosts extends Component {
                     </div>
 
                     <button className="btn btn-primary" onClick={() => this.sendPost()}>Send</button>
-                </div>
+                </form>
 
             </div>
         )
